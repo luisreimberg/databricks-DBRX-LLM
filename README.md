@@ -32,7 +32,8 @@ Na pasta "chatbot", em app.py, ocorre a integração entre o modelo DBRX com o c
 
 # Demonstração do funcionamento
 
-![Captura de tela de 2024-04-27 13-38-27](https://github.com/luisreimberg/databricks-DBRX-LLM/assets/94421216/60b81c7a-1913-4b12-9d00-f839990f9396)
+![Captura de tela de 2024-04-28 02-27-59](https://github.com/luisreimberg/databricks-DBRX-LLM/assets/94421216/b2a2f156-ddce-4eb8-966b-fc4ab2abaedc)
+
 
 
 
