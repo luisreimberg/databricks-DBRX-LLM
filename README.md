@@ -19,7 +19,7 @@ O objetivo deste projeto é realizar a criação de um chatbot baseado em RAG co
 
 # Sobre o projeto
 
-Temos um arquivo de texto (texts.txt) onde está armazenado dados fictícios da empresa LGBR Pharma e seu fundador Luis Reimberg. 
+Temos um arquivo de texto (texts.txt) onde está armazenado dados fictícios da empresa LGBR Pharma. 
 
 A imagem abaixo representa o funcionamento do projeto:
 
