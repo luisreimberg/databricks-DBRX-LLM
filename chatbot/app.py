@@ -8,8 +8,8 @@ from langchain.chains.question_answering import load_qa_chain
 os.environ["PINECONE_API_KEY"] = "Chave API"
 os.environ["PINECONE_INDEX_NAME"] = "Nome do index"
 
-databricks_token = "Host Databricks"
-databricks_host = "Token Databricks"
+databricks_token = "Token Databricks"
+databricks_host = "Host Databricks"
 
 
 model_embeddings = DatabricksEmbeddings(host = databricks_host, api_token = databricks_token,
