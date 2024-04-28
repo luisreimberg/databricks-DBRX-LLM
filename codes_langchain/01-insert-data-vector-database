@@ -41,12 +41,12 @@ for i in docs:
     print(i.page_content)
     print()
 
-# LLM DBRX para interpretar os dados
+# LLM DBRX
 llm = ChatDatabricks(host = databricks_host, max_tokens=500, api_token = databricks_token, endpoint = "databricks-dbrx-instruct")
 chain = load_qa_chain(llm, chain_type="stuff")
 vectorstore = PineconeVectorStore(embedding=model_embeddings)
 
-# Perguntando algo para testar a resposta
+# Pergunta teste
 query = "What is LGBR Pharma?"
 docs = vectorstore.similarity_search(query)
 result = chain.run(input_documents = docs, question = query)
