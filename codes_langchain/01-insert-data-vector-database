@@ -1,0 +1,53 @@
+# Import libs
+from langchain_community.embeddings import DatabricksEmbeddings
+from langchain_pinecone import PineconeVectorStore
+from langchain.docstore.document import Document
+from langchain.chat_models import ChatDatabricks
+from langchain.chains.question_answering import load_qa_chain
+from datetime import datetime
+from dotenv import load_dotenv
+import os
+
+# Credenciais Vector Database (Pinecone)
+os.environ["PINECONE_API_KEY"] = "Chave API"
+os.environ["PINECONE_INDEX_NAME"] = "Nome do index"
+
+# Credenciais Databricks
+databricks_host = "Host Databricks"
+databricks_token = "Token Databricks"
+
+# Leitura de arquivo .txt
+texts = []
+with open('texts.txt', 'r') as file_1:
+    for line in file_1.readlines():
+        texts.append(line.strip())
+
+texts_01 = [Document(page_content=i, metadata={"time": datetime.now().strftime("%Y%m%d%H%M%S")}) for i in texts]
+
+# Model Embeddings para inserir dados no Vector Database
+model_embeddings = DatabricksEmbeddings(host = databricks_host , api_token = databricks_token,
+                           endpoint = "databricks-bge-large-en")
+
+index_name = os.getenv('PINECONE_INDEX_NAME')
+
+# Inserindo dados no Vector Database Pinecone 
+docsearch = PineconeVectorStore.from_documents(texts_01, model_embeddings, index_name=index_name)
+
+# Perguntando algo para testar o insert dos dados
+query = "What is LGBR Pharma"
+docs = docsearch.similarity_search(query, k = 5)
+
+for i in docs:
+    print(i.page_content)
+    print()
+
+# LLM DBRX para interpretar os dados
+llm = ChatDatabricks(host = databricks_host, max_tokens=500, api_token = databricks_token, endpoint = "databricks-dbrx-instruct")
+chain = load_qa_chain(llm, chain_type="stuff")
+vectorstore = PineconeVectorStore(embedding=model_embeddings)
+
+# Perguntando algo para testar a resposta
+query = "What is LGBR Pharma?"
+docs = vectorstore.similarity_search(query)
+result = chain.run(input_documents = docs, question = query)
+print(result)
